@@ -7,4 +7,5 @@
   </parent>
   <artifactId>bos-domain</artifactId>
   <description>实体类所在地</description>
+  <packaging>jar</packaging>
 </project>

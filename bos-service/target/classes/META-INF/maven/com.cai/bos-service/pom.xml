@@ -6,6 +6,15 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>bos-service</artifactId>
-  <description>业务逻辑代码所在地
-业务逻辑代码所在地</description>
+  <description>业务逻辑代码所在地,业务逻辑代码所在地</description>
+  <packaging>jar</packaging>
+  
+ 
+  <dependencies>
+  	<dependency>
+  		<groupId>com.cai</groupId>
+  		<artifactId>bos-dao</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

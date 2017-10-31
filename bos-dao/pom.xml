@@ -7,4 +7,15 @@
   </parent>
   <artifactId>bos-dao</artifactId>
   <packaging>jar</packaging>
+  
+  
+    
+ 
+  <dependencies>
+  	<dependency>
+  		<groupId>com.cai</groupId>
+  		<artifactId>bos-utils</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

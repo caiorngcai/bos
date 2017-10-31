@@ -7,4 +7,14 @@
   </parent>
   <artifactId>bos-utils</artifactId>
   <description>bos项目，工具类所在地</description>
+  <packaging>jar</packaging>
+  
+ 
+  <dependencies>
+  	<dependency>
+  		<groupId>com.cai</groupId>
+  		<artifactId>bos-domain</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
