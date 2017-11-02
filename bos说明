@@ -31,10 +31,11 @@
  2.在util层的基础类中封装了一个pagebean，用来表示通用的分页数据的信息。
  3.在basedao层扩展一个通用的分页查询方法，并在action层定义一个类来接受取派员的列表展示请求。
  
- 遇到的问题：struts2用属性驱动时无法正确接受到参数，报java.lang.NoSuchFieldException: resourceEntries异常错误，上网查找到的时候说
+a. 问题：struts2用属性驱动时无法正确接受到参数，报java.lang.NoSuchFieldException: resourceEntries异常错误，上网查找到的时候说
  Tomcat版本问题，后来仔细检查发现没有问题。
  解决：在action中在定义属性时，没有对应的set和get方法，导致无法接受参数。
- 
+ b.问题：在使用eclipse的github插件上传代码时出现rejected non fast forward错误。
+   解决：因为代码没有合并，需要pull一下同步，然后在push.
  
  
  
