@@ -126,10 +126,10 @@
 			border : false,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageList: [1,10,15,20,25,30,35,50],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/staff.json",
+			url : "staffAction_pageQuery.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -165,23 +165,45 @@
 		</div>
 		
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addStaffForm" action="staffAction_add.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">收派员信息</td>
 					</tr>
 					<!-- TODO 这里完善收派员添加 table -->
-					<tr>
-						<td>取派员编号</td>
-						<td><input type="text" name="id" class="easyui-validatebox" required="true"/></td>
-					</tr>
+					
 					<tr>
 						<td>姓名</td>
 						<td><input type="text" name="name" class="easyui-validatebox" required="true"/></td>
 					</tr>
 					<tr>
 						<td>手机</td>
-						<td><input type="text" name="telephone" class="easyui-validatebox" required="true"/></td>
+						<td>
+							<script type="text/javascript">
+					
+								$(function(){
+									
+									$("#save").click(function(){
+										var v=$("#addStaffForm").form('validate');
+										if(v)
+											{
+												$("#addStaffForm").submit();	
+											}
+									});
+									var reg= /^1[3|4|5|7|8][0-9]{9}$/;
+									<!--使用easyui自定扩展校验规则-手机号的校验扩展-->
+									$.extend($.fn.validatebox.defaults.rules,{
+										telephone:{
+											validator:function(value,param){
+												return reg.test(value);
+											},
+											message:'手机输入有误'
+										}
+									});
+								});
+							</script>
+						<input type="text" data-options="validType:'telephone'"
+						name="telephone" class="easyui-validatebox" required="true"/></td>
 					</tr>
 					<tr>
 						<td>单位</td>

@@ -13,8 +13,8 @@ import java.lang.reflect.Type;
  * @create 2017-10-26 13:06
  **/
 public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
-    protected T model;
-
+	public static final String LIST="list";
+	protected T model;
     public BaseAction() {
         ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
         Type[] types = parameterizedType.getActualTypeArguments();
