@@ -5,7 +5,9 @@ import com.cai.bos.utils.PageBean;
 
 public interface StaffService {
 
-	void save(Staff model);
-	void pageQuery(PageBean pageBean);
-
+	public void save(Staff model);
+	public void pageQuery(PageBean pageBean);
+	public void deleteBatch(String ids);
+	public Staff findById(String id);
+	public void update(Staff staff);
 }

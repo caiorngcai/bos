@@ -37,7 +37,28 @@
 	}
 	
 	function doDelete(){
-		alert("删除...");
+		var rows=$("#grid").datagrid("getSelections");
+		if(rows.length==0)
+			{
+				$.messager.alert("提示信息","请选择需要选择的取派员","warning");
+			}else{
+				$.messager.confirm("删除确认","您确定要删除选中的取派员吗",function(r){
+					if(r)
+						{
+							var array=new Array();
+							for(var i=0;i<rows.length;i++)
+								{
+									var staff=rows[i];
+									var id=staff.id;
+									array.push(id);
+								}
+							var ids=array.join(",");
+							//把取派员id传给action删除即可
+							location.href="staffAction_deleteBatch?ids="+ids
+						}
+					
+				});
+			}
 	}
 	
 	function doRestore(){
@@ -146,13 +167,29 @@
 	        resizable:false
 	    });
 		
+		// 修改取派员窗口,定义大小边框等，不涉及内容
+		$('#editStaffWindow').window({
+	        title: '修改取派员',
+	        width: 400,
+	        modal: true,
+	        shadow: true,
+	        closed: true,
+	        height: 400,
+	        resizable:false
+	    });
+		
 	});
-
+	//双击修改的方法
 	function doDblClickRow(rowIndex, rowData){
-		alert("双击表格数据...");
+		//rowdata表示点击对应的记录行
+		$("#editStaffWindow").window("open");
+		//把此行记录回显到修改取派员的修改窗口上
+		$("#editStaffForm").form("load",rowData);
+		
 	}
 </script>	
 </head>
+
 <body class="easyui-layout" style="visibility:hidden;">
 	<div region="center" border="false">
     	<table id="grid"></table>
@@ -204,6 +241,76 @@
 							</script>
 						<input type="text" data-options="validType:'telephone'"
 						name="telephone" class="easyui-validatebox" required="true"/></td>
+					</tr>
+					<tr>
+						<td>单位</td>
+						<td><input type="text" name="station" class="easyui-validatebox" required="true"/></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						<input type="checkbox" name="haspda" value="1" />
+						是否有PDA</td>
+					</tr>
+					<tr>
+						<td>取派标准</td>
+						<td>
+							<input type="text" name="standard" class="easyui-validatebox" required="true"/>  
+						</td>
+					</tr>
+					</table>
+			</form>
+		</div>
+	</div>
+	
+	<!-- 修改取派员的数据table，与添加的类似 -->
+	<div class="easyui-window" title="对收派员进行添加或者修改" id="editStaffWindow" collapsible="false" 
+		minimizable="false" maximizable="false" style="top:20px;left:200px">
+		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false" >
+			<div class="datagrid-toolbar">
+				<a id="edit" icon="icon-edit" href="#" class="easyui-linkbutton" plain="true" >修改</a>
+			</div>
+		</div>
+		
+		<div region="center" style="overflow:auto;padding:5px;" border="false">
+			<form id="editStaffForm" action="staffAction_edit.action" method="post">
+				<input type="hidden" name="id">
+				<table class="table-edit" width="80%" align="center">
+					<tr class="title">
+						<td colspan="2">收派员信息</td>
+					</tr>
+					<tr>
+						<td>姓名</td>
+						<td><input type="text" name="name" class="easyui-validatebox" required="true"/></td>
+					</tr>
+					<tr>
+						<td>手机</td>
+						<td>
+							<script type="text/javascript">
+								$(function(){
+									//为保存按钮绑定事件
+									$("#edit").click(function(){
+										//表单校验，如果通过，提交表单
+										var v = $("#editStaffForm").form("validate");
+										if(v){
+											//$("#addStaffForm").form("submit");
+											$("#editStaffForm").submit();
+										}
+									});
+									
+									var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+									//扩展手机号校验规则
+									$.extend($.fn.validatebox.defaults.rules, { 
+										telephone: { 
+											validator: function(value,param){ 
+											return reg.test(value);
+										}, 
+											message: '手机号输入有误！' 
+										}
+										}); 
+									});
+							</script>
+						<input type="text" data-options="validType:'telephone'" 
+							name="telephone" class="easyui-validatebox" required="true"/></td>
 					</tr>
 					<tr>
 						<td>单位</td>

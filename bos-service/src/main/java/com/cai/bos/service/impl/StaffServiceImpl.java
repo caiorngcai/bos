@@ -1,5 +1,6 @@
 package com.cai.bos.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,4 +26,41 @@ public class StaffServiceImpl implements StaffService{
 		staffDao.pageQuery(pageBean);
 	}
 
+
+	/* 
+	 * 批量删除取派员的方法
+	 */
+	public void deleteBatch(String ids) {
+			if(StringUtils.isNotBlank(ids))
+			{
+				String[] staffIds=ids.split(",");
+					for (String id : staffIds) {
+						//调用dao层逻辑删除取派员
+					staffDao.executeUpdate("staff.delete", id);
+				}
+			}
+	}
+
+
+	/* 
+	 * 根据id查找取派员的方法
+	 */
+	
+	public Staff findById(String id) {
+		return staffDao.findById(id);
+		
+	}
+
+
+	/* 
+	 * 更新取派员的方法
+	 */
+	@Override
+	public void update(Staff staff) {
+		staffDao.update(staff);
+		
+	}
+
+
+	
 }
