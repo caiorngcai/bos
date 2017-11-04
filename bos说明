@@ -1,8 +1,9 @@
 # bos
 一.bos概述
 ====
->>此项目为本人练习javaweb和ssh框架所做的java后台项目，是一个物流管理系统,具有最基本的bos系统功能。架构为Tomcat+mysql+eclipse+ssh框架，是一个完整的项目。
->>旨在熟悉java后台的开发工作流程
+此项目为本人练习javaweb和ssh框架所做的java后台项目，是一个物流管理系统,具有最基本的bos系统功能。架构为Tomcat+mysql+eclipse+ssh框架，是一个完整的项目。
+旨在熟悉java后台的开发工作流程。
+整个项目分为domain数据层，service服务层，action前端控制层，dao数据库交互层，util通用方法层。
 
 二.说明
 ======
@@ -19,3 +20,26 @@
 >>17/10/31
 完成daoc层通用操作的抽取，包括基础的增删改查操作。action层的抽取，使得在在获取model对象时具有通用性，减少了重复的代码。
 完成用户登录和登出的功能。完成用户修改密码的功能，使用ajax请求，无刷新修改密码。
+自定义了一个登陆的拦截器，对所有请求进行拦截，确保未登陆用户不能进行操作
+>>17/11/01
+1.为整个bos项目的基础部分设计了数据库表，其中包括取派员表，区域表，管理分区，和管理定区表，其中包括设计表与表之间的关系，使用powerdesiner
+描述表的关系，并生产创建表的sql语句，使用myeclipse的插件反转生产hibernate的实体类和映射表。
+2.实现了取派员的添加前端页面，使用easyui的校验规则，并自定义了一个手机号码的校验规则。
+ 完成取派员添加功能的服务器端实现。
+ >>17/11/02
+ 1.使用easyui的datagrid功能来实现取派员的列表展示。使用ajax请求获得取派员信息，并在easyui的datagrid的列表中展示。
+ 2.在util层的基础类中封装了一个pagebean，用来表示通用的分页数据的信息。
+ 3.在basedao层扩展一个通用的分页查询方法，并在action层定义一个类来接受取派员的列表展示请求。
+ 
+a. 问题：struts2用属性驱动时无法正确接受到参数，报java.lang.NoSuchFieldException: resourceEntries异常错误，上网查找到的时候说
+ Tomcat版本问题，后来仔细检查发现没有问题。
+ 解决：在action中在定义属性时，没有对应的set和get方法，导致无法接受参数。
+ b.问题：在使用eclipse的github插件上传代码时出现rejected non fast forward错误。
+   解决：因为代码没有合并，需要pull一下同步，然后在push.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
