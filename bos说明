@@ -37,7 +37,10 @@ a. 问题：struts2用属性驱动时无法正确接受到参数，报java.lang.
  b.问题：在使用eclipse的github插件上传代码时出现rejected non fast forward错误。
    解决：因为代码没有合并，需要pull一下同步，然后在push.
  
- 
+>>17/11/03
+1.完成取派员基本功能的批量删除功能
+2.完成取派员的基本功能的修改功能，涉及到easyUI的双击触发事件
+
  
  
  
