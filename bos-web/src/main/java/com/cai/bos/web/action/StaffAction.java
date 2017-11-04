@@ -34,18 +34,9 @@ public class StaffAction extends BaseAction<Staff>{
 	}
 	
 	public String pageQuery() throws IOException {
-		//把已经有的pagebean属性设置到pagebean传到dao层
-		PageBean pageBean=new PageBean();
-		pageBean.setCurrentPage(page);
-		pageBean.setPageSize(rows);
-		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Staff.class);
-		pageBean.setDetachedCriteria(detachedCriteria);
+		//此处的pageBean来自父类baseaction，为已经封装好page和row,查询对象的pagebean。
 		staffService.pageQuery(pageBean);
-		JsonConfig jsonConfig=new JsonConfig();
-		jsonConfig.setExcludes(new String[]{"currentPage","detachedCriteria","pageSize"});
-		String json=JSONObject.fromObject(pageBean, jsonConfig).toString();
-		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
-		ServletActionContext.getResponse().getWriter().print(json);
+		this.java2json(pageBean,new String[]{"currentPage","detachedCriteria","pageSize"});
 		return NONE;
 	}
 	

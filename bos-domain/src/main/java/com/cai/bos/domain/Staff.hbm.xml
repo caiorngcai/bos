@@ -31,9 +31,9 @@
             </key>
             <one-to-many class="com.cai.bos.domain.Decidedzone" />
         </set>
-      
     </class>
-      <query name="staff.delete">
+	 <query name="staff.delete">
         	UPDATE Staff SET deltag = '1' WHERE id = ?
-        </query>
+        </query>    
+     
 </hibernate-mapping>

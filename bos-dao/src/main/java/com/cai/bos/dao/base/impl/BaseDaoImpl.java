@@ -10,6 +10,7 @@ import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.cai.bos.dao.base.*;
+import com.cai.bos.domain.Region;
 import com.cai.bos.utils.PageBean;
 
 import javax.annotation.Resource;
@@ -104,6 +105,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 		List rows = this.getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);
 		pageBean.setRows(rows);
 		
+	}
+	/* 
+	 * 保存或者修改
+	 */
+	public void saveOrUpdate(T entity) {
+			this.getHibernateTemplate().saveOrUpdate(entity);
 	}
 	
 }
