@@ -3,6 +3,8 @@
  */
 package com.cai.bos.dao;
 
+import java.util.List;
+
 import com.cai.bos.dao.base.BaseDao;
 import com.cai.bos.domain.Region;
 
@@ -13,5 +15,10 @@ import com.cai.bos.domain.Region;
 public interface RegionDao extends BaseDao<Region> {
 
 	public void saveOrUpdate(Region region);
+
+	/**
+	 * 
+	 */
+	public List<Region> findListByq(String q);
 
 }

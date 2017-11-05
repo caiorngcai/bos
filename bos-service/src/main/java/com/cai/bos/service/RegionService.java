@@ -4,6 +4,7 @@
 package com.cai.bos.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.cai.bos.domain.Region;
 import com.cai.bos.utils.PageBean;
@@ -23,5 +24,15 @@ public interface RegionService {
 	 * 
 	 */
 	public void pageQuery(PageBean pageBean);
+
+	/**
+	 * 
+	 */
+	public List<Region> findListByq(String q);
+
+	/**
+	 * 
+	 */
+	public List<Region> findAll();
 
 }

@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -28,11 +29,18 @@ import com.cai.bos.utils.PinYin4jUtils;
 @Controller
 @Scope("prototype")
 public class RegionAction extends BaseAction<Region>{
+	//用来分区页面添加时查询区域需要接受的参数
+	private String q;
+	public void setQ(String q) {
+		this.q = q;
+	}
+
 	//属性驱动，用来接收上传的文件
 	private File regionFile;
 	public void setRegionFile(File regionFile) {
 		this.regionFile = regionFile;
 	}
+
 	@Autowired
 	private RegionService regionService;
 	/*
@@ -82,4 +90,17 @@ public class RegionAction extends BaseAction<Region>{
 					new String[]{"currentPage","detachedCriteria","pageSize","subareas"});
 		return NONE;
 	}
+	public String listajax() {
+		List<Region> list=null;
+		if(StringUtils.isNotBlank(q))
+		{
+			list=regionService.findListByq(q);
+		}else {
+			list=regionService.findAll();
+		}
+		this.java2Json(list, new String[]{"subareas"});
+		return NONE;
+		
+	}
+	
 }

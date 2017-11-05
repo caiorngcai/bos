@@ -43,7 +43,12 @@ public class Region implements java.io.Serializable {
 		this.citycode = citycode;
 		this.subareas = subareas;
 	}
-
+	/*
+	 * 為了使分区添加列表的区域选择栏的数据，由json构造，使得json有name属性。
+	 */
+	public String getName() {
+		return province+" "+city+" "+district;
+	}
 	// Property accessors
 
 	public String getId() {

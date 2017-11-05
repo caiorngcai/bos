@@ -4,6 +4,7 @@
 package com.cai.bos.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,19 @@ public class RegionServiceImpl implements RegionService{
 	public void pageQuery(PageBean pageBean) {
 		regionDao.pageQuery(pageBean);
 		
+	}
+	/* 
+	 * 根据查询条件过滤区域的方法
+	 */
+	
+	public List<Region> findListByq(String q) {
+		return regionDao.findListByq(q);
+	}
+	/* 
+	 * 查询所有区域的方法
+	 */
+	public List<Region> findAll() {
+		return regionDao.findAll();
 	}
 
 }
