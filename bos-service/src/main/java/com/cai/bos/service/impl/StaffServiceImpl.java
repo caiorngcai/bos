@@ -1,6 +1,10 @@
 package com.cai.bos.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +63,16 @@ public class StaffServiceImpl implements StaffService{
 	public void update(Staff staff) {
 		staffDao.update(staff);
 		
+	}
+
+
+	/* 
+	 *查询未删除取派员的方法 
+	 */
+	public List<Staff> findListNotDelete() {
+		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Staff.class);
+		detachedCriteria.add(Restrictions.eq("deltag", "0"));
+		return staffDao.findByCriteria(detachedCriteria);
 	}
 
 

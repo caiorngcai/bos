@@ -5,11 +5,14 @@ package com.cai.bos.service.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cai.bos.dao.SubareaDao;
+import com.cai.bos.domain.Staff;
 import com.cai.bos.domain.Subarea;
 import com.cai.bos.service.SubareaService;
 import com.cai.bos.utils.PageBean;
@@ -40,6 +43,14 @@ public class SubareaServiceImpl implements SubareaService {
 	 */
 	public List<Subarea> findAll() {
 		return subareaDao.findAll();
+	}
+	/* 
+	 *查询所有未关联定区的方法 
+	 */
+	public List<Subarea> findListNotAssociation() {
+		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Subarea.class);
+		detachedCriteria.add(Restrictions.isNull("decidedzone"));
+		return subareaDao.findByCriteria(detachedCriteria);
 	}
 
 }

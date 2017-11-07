@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cai.bos.dao.base.*;
 import com.cai.bos.domain.Region;
+import com.cai.bos.domain.Staff;
 import com.cai.bos.utils.PageBean;
 
 import javax.annotation.Resource;
@@ -114,6 +115,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	 */
 	public void saveOrUpdate(T entity) {
 			this.getHibernateTemplate().saveOrUpdate(entity);
+	}
+	/* 
+	 *通用的查询方法 
+	 */
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+		return (List<T>) this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 	
 }

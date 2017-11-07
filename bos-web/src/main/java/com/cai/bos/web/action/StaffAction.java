@@ -1,6 +1,7 @@
 package com.cai.bos.web.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -36,7 +37,7 @@ public class StaffAction extends BaseAction<Staff>{
 	public String pageQuery() throws IOException {
 		//此处的pageBean来自父类baseaction，为已经封装好page和row,查询对象的pagebean。
 		staffService.pageQuery(pageBean);
-		this.java2json(pageBean,new String[]{"currentPage","detachedCriteria","pageSize"});
+		this.java2json(pageBean,new String[]{"currentPage","detachedCriteria","pageSize","decidedzones"});
 		return NONE;
 	}
 	
@@ -53,6 +54,14 @@ public class StaffAction extends BaseAction<Staff>{
 		staff.setStation(model.getStandard());
 		staffService.update(staff);
 		return LIST;
+	}
+	/*
+	 * 定区下拉栏取派员选择的数据提供方法
+	 */
+	public String listajax() {
+		List<Staff> list=staffService.findListNotDelete();
+		this.java2Json(list, new String[]{"decidedzones"});
+		return NONE;
 	}
 	public int getPage() {
 		return page;

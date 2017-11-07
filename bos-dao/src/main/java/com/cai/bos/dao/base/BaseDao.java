@@ -3,6 +3,9 @@ package com.cai.bos.dao.base;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+
+import com.cai.bos.domain.Staff;
 import com.cai.bos.utils.PageBean;
 
 public interface BaseDao<T> {
@@ -13,4 +16,5 @@ public interface BaseDao<T> {
     public List<T> findAll();
     public void executeUpdate(String queryName, Object...objects);
     public void pageQuery(PageBean pageBean) ;
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria);
 }
