@@ -100,6 +100,9 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 		
 		//获得分页数据集合
 		detachedCriteria.setProjection(null);//把查询总数的限制条件去掉
+		//设置hibernate封装查询结果，把多表查询结果封装成根对象返回结果，即分区对象返回，默认为把
+		//结果的两个对象封装成数组返回。
+		detachedCriteria.setResultTransformer(DetachedCriteria.ROOT_ENTITY);
 		int firstResult=(currentPage-1)*pageSize;
 		int maxResults=pageSize;
 		List rows = this.getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);

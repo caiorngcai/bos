@@ -42,9 +42,9 @@
 	function doSearch(){
 		$('#searchWindow').window("open");
 	}
-	
+	//数据导出按钮点击事件
 	function doExport(){
-		alert("导出");
+		window.location.href="subareaAction_exportXls.action"
 	}
 	
 	function doImport(){
@@ -160,7 +160,7 @@
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/subarea.json",
+			url : "subareaAction_pageQuery.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -187,8 +187,30 @@
 	        height: 400,
 	        resizable:false
 	    });
+		
+		
+		//定义一个工具方法，用于将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+		$.fn.serializeJson=function(){  
+            var serializeObj={};  
+            var array=this.serializeArray();
+            $(array).each(function(){  
+                if(serializeObj[this.name]){  
+                    if($.isArray(serializeObj[this.name])){  
+                        serializeObj[this.name].push(this.value);  
+                    }else{  
+                        serializeObj[this.name]=[serializeObj[this.name],this.value];  
+                    }  
+                }else{  
+                    serializeObj[this.name]=this.value;   
+                }  
+            });  
+            return serializeObj;  
+        }; 
 		$("#btn").click(function(){
-			alert("执行查询...");
+			var p=$("#searchForm").serializeJson();
+			console.info(p);
+			$("#grid").datagrid("load",p);
+			$("#searchWindow").window("close");
 		});
 		
 	});
@@ -207,11 +229,23 @@
 		<div style="height:31px;overflow:hidden;" split="false" border="false" >
 			<div class="datagrid-toolbar">
 				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
+				<script type="text/javascript">
+					$(function(){
+						$("#save").click(function()
+						{
+							var r=$("addSubareaForm").form("validate");
+							if(r)
+						{
+									$("#addSubareaForm").submit();
+						}
+					});
+					});
+				</script>
 			</div>
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addSubareaForm" method="post" action="subareaAction_add.action">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">分区信息</td>
@@ -258,7 +292,7 @@
 	<!-- 查询分区 -->
 	<div class="easyui-window" title="查询分区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="searchForm">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">查询条件</td>
