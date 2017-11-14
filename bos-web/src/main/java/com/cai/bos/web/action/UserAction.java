@@ -1,5 +1,6 @@
 package com.cai.bos.web.action;
 
+import com.cai.bos.crm.ICustomerService;
 import com.cai.bos.domain.User;
 import com.cai.bos.service.UserService;
 import com.cai.bos.utils.BOSUtil;
@@ -32,6 +33,8 @@ public class UserAction extends BaseAction<User> {
     //自动注入userservice对象
     @Autowired
     private UserService userService;
+    @Autowired
+    private ICustomerService proxy;
 
     /**
      * 处理用户登陆的请求方法
