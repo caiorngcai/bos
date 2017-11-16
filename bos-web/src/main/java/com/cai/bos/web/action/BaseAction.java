@@ -59,7 +59,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
     public void java2json(Object o,String[] excludes) {
     	JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setExcludes(excludes);
-		String json=JSONObject.fromObject(pageBean, jsonConfig).toString();
+		String json=JSONObject.fromObject(o, jsonConfig).toString();
 		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
 		//因为实在base层，故此处的异常尽量不要往外抛
 		try {

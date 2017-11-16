@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<div region="center" style="overflow:auto;padding:5px;" border="false">
-		<form id="noticebillForm" action="" method="post">
+		<form id="noticebillForm" action="noticebillAction_add.action" method="post">
 			<table class="table-edit" width="95%" align="center">
 				<tr class="title">
 					<td colspan="4">客户信息</td>
@@ -59,7 +59,35 @@
 				<tr>
 					<td>来电号码:</td>
 					<td><input type="text" class="easyui-validatebox" name="telephone"
-						required="true" /></td>
+						required="true" />
+							<script type="text/javascript">
+								$(function(){
+									$("input[name=telephone]").blur(function(){
+										var telephone=this.value;
+										//发送ajax请求，根据电话号码获得customer数据，用于回显
+										$.post('noticebillAction_findCustomerByTelephone.action',{"telephone":telephone},function(data){
+											if(data!=null)
+												{
+													var customerId=data.id;
+													var customerName=data.name;
+													var address=data.address;
+													$("input[name=customerId]").val(customerId);
+													$("input[name=customerName]").val(customerName);
+													$("input[name=delegater]").val(customerName);
+													$("input[name=pickaddress]").val(address);
+												}else{
+													//没有查询到客户信息，不能进行页面回显
+													$("input[name=customerId]").val("");
+													$("input[name=customerName]").val("");
+													$("input[name=delegater]").val("");
+													$("input[name=pickaddress]").val("");
+												}
+
+										});
+									});
+								});
+							</script>
+						</td>
 					<td>客户编号:</td>
 					<td><input type="text" class="easyui-validatebox"  name="customerId"
 						required="true" /></td>
@@ -102,7 +130,7 @@
 						required="true" /></td>
 					<td>预约取件时间:</td>
 					<td><input type="text" class="easyui-datebox" name="pickdate"
-						data-options="required:true, editable:false" /></td>
+						data-options="editable:false" /></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
