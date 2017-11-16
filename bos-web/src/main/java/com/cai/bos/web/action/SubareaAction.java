@@ -23,12 +23,19 @@ import com.cai.bos.domain.Subarea;
 import com.cai.bos.service.SubareaService;
 import com.cai.bos.utils.FileUtils;
 
+import freemarker.core.ReturnInstruction.Return;
+
 /**
  * @author crc
  *	@date 2017年11月6日 上午9:24:18
  */
 @Controller
 public class SubareaAction extends BaseAction<Subarea>{
+	//属性驱动接受定区id
+	private String decidedzoneId;
+	public void setDecidedzoneId(String decidedzoneId) {
+		this.decidedzoneId = decidedzoneId;
+	}
 	@Autowired
 	private SubareaService subareaService;
 	public String add() {
@@ -121,5 +128,14 @@ public class SubareaAction extends BaseAction<Subarea>{
 		List<Subarea> list=subareaService.findListNotAssociation();
 		this.java2Json(list, new String[]{"decidedzone","region"});
 		return NONE;
+	}
+	/*
+	 * 根據定区id查询关联分区的方法
+	 */
+	public String findListByDecidedzoneId() {
+		List<Subarea> list=subareaService.findListByDecidedzoneId(decidedzoneId);
+		this.java2Json(list,new String[]{"decidedzone","subareas"});
+		return NONE;
+		
 	}
 }

@@ -44,7 +44,46 @@
 	}
 	
 	function doAssociations(){
-		$('#customerWindow').window('open');
+		var rows=$("#grid").datagrid("getSelections");
+		if(rows.length!=1)
+			{	//弹出提示选择一行
+				//alert(rows);
+				$.messager.alert("提示信息","请选择一个定区操作","warning");
+			}else
+				{
+					$('#customerWindow').window('open');
+					$("#noassociationSelect").empty();
+					$("#associationSelect").empty();
+					//返回未关联定区的客户
+					var url_1="decidedzoneAction_findListNotAssociation.action";
+					$.post(url_1,function(data)
+							{
+							for(var i=0;i<data.length;i++){
+							var id = data[i].id;
+							var name = data[i].name;
+							var telephone = data[i].telephone;
+							name = name + "(" + telephone + ")";
+							$("#noassociationSelect").append("<option value='"+id+"'>"+name+"</option>");
+						}
+
+							});
+					//返回已关联定区的客户
+					var url_2 = "decidedzoneAction_findListHasAssociation.action";
+					var decidedzoneId = rows[0].id;
+					//alert(decidedzoneId);
+					$.post(url_2,{"id":decidedzoneId},function(data){
+						//遍历json数组
+						for(var i=0;i<data.length;i++){
+							var id = data[i].id;
+							var name = data[i].name;
+							var telephone = data[i].telephone;
+							name = name + "(" + telephone + ")";
+							$("#associationSelect").append("<option value='"+id+"'>"+name+"</option>");
+						}
+					});
+
+				}
+		
 	}
 	
 	//工具栏
@@ -158,14 +197,14 @@
 		
 	});
 
-	function doDblClickRow(){
-		alert("双击表格数据...");
+	function doDblClickRow(index,data){
+		//alert("双击表格数据...");
 		$('#association_subarea').datagrid( {
 			fit : true,
 			border : true,
 			rownumbers : true,
 			striped : true,
-			url : "json/association_subarea.json",
+			url : "subareaAction_findListByDecidedzoneId.action?decidedzoneId="+data.id,
 			columns : [ [{
 				field : 'id',
 				title : '分拣编号',
@@ -227,7 +266,7 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			url : "json/association_customer.json",
+			url : "decidedzoneAction_findListHasAssociation.action?id="+data.id,
 			columns : [[{
 				field : 'id',
 				title : '客户编号',
@@ -353,7 +392,7 @@
 	<!-- 关联客户窗口 -->
 	<div class="easyui-window" title="关联客户窗口" id="customerWindow" collapsible="false" closed="true" minimizable="false" maximizable="false" style="top:20px;left:200px;width: 400px;height: 300px;">
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form id="customerForm" action="${pageContext.request.contextPath }/decidedzone_assigncustomerstodecidedzone.action" method="post">
+			<form id="customerForm" action="${pageContext.request.contextPath }/decidedzoneAction_assigncustomerstodecidedzone.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="3">关联客户</td>
@@ -366,6 +405,28 @@
 						<td>
 							<input type="button" value="》》" id="toRight"><br/>
 							<input type="button" value="《《" id="toLeft">
+							<script type="text/javascript">
+								$(function(){
+									$("#toRight").click(function(){
+										
+											$("#associationSelect").append($("#noassociationSelect option:selected"));
+											});		
+									$("#toLeft").click(function(){
+										$("#noassociationSelect").append($("#associationSelect option:selected"));
+										});		
+									
+									$("#associationBtn").click(function(){
+										//alert("点击了");
+										var rows=$("#grid").datagrid("getSelections");
+										//alert(rows[0].id);
+										//定区id
+										var id=rows[0].id;
+										$("input[name=id]").val(id);
+										$("#associationSelect option").attr("selected","selected");
+										$("#customerForm").submit();
+									});
+								});
+							</script>
 						</td>
 						<td>
 							<select id="associationSelect" name="customerIds" multiple="multiple" size="10"></select>
