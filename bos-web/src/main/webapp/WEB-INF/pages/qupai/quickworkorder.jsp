@@ -30,21 +30,26 @@
 	var editIndex ;
 	
 	function doAdd(){
+		//alert(editIndex);
+		//前面已经编辑过进来，先结束上一次
 		if(editIndex != undefined){
 			$("#grid").datagrid('endEdit',editIndex);
 		}
+		//第一次进来
 		if(editIndex==undefined){
 			//alert("快速添加电子单...");
 			$("#grid").datagrid('insertRow',{
 				index : 0,
 				row : {}
 			});
+			//在顶部开始下一次编辑
 			$("#grid").datagrid('beginEdit',0);
 			editIndex = 0;
 		}
 	}
 	
 	function doSave(){
+		//alert(editIndex);
 		$("#grid").datagrid('endEdit',editIndex );
 	}
 	
@@ -165,6 +170,11 @@
 			onAfterEdit : function(rowIndex, rowData, changes){
 				console.info(rowData);
 				editIndex = undefined;
+				$.post('workordermanageAction_add.action',rowData,function(data){
+					if(data == '0'){
+						$.messager.alert("提示信息","工作单信息录入失败！","error");
+					}
+				});
 			}
 		});
 	});

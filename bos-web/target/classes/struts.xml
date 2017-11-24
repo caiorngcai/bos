@@ -8,19 +8,14 @@
 	<constant name="struts.objectFactory" value="spring"/>
 	
 	<package name="basicstruts2" extends="struts-default">
-		<interceptors>
-			<interceptor name="bosLoginInterceptor" class="com.cai.bos.web.filter.BOSLoginInterceptor">
-				<param name="excludeMethods">login</param>
-			</interceptor>
-			<interceptor-stack name="myStack">
-				<interceptor-ref name="bosLoginInterceptor"></interceptor-ref>
-				<interceptor-ref name="defaultStack"></interceptor-ref>
-			</interceptor-stack>
-		</interceptors>
-		<default-interceptor-ref name="myStack"/>
+		
 		<global-results>
 			<result name="login">/login.jsp</result>
+			<result name="unauthorized">/unauthorized.jsp</result>
 		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="unauthorized" exception="org.apache.shiro.authz.UnauthorizedException"></exception-mapping>
+		</global-exception-mappings>
 		<!-- 需要进行权限控制的页面访问 -->
 		<action name="page_*_*">
 			<result type="dispatcher">/WEB-INF/pages/{1}/{2}.jsp</result>
@@ -41,7 +36,11 @@
 		</action>
 		<action name="noticebillAction_*" class="noticebillAction" method="{1}">
 		<result name="noticebill_add">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
-			
+		</action>
+		<action name="workordermanageAction_*" class="workordermanageAction" method="{1}">
+		</action>
+		<action name="functionAction_*" class="functionAction" method="{1}">
+			<result name="list">/WEB-INF/pages/admin/function.jsp</result>
 		</action>
 	</package>
 </struts>

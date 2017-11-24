@@ -3,6 +3,7 @@ package com.cai.bos.web.action;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,6 @@ import net.sf.json.JsonConfig;
 @Scope("prototype")
 public class StaffAction extends BaseAction<Staff>{
 	//应该为属性设置set和get方法，不然正确用属性驱动获得对象。
-	private int page;
-	private int rows;
 	private String ids;
 	
 	@Autowired
@@ -40,11 +39,12 @@ public class StaffAction extends BaseAction<Staff>{
 		this.java2json(pageBean,new String[]{"currentPage","detachedCriteria","pageSize","decidedzones"});
 		return NONE;
 	}
-	
+	@RequiresPermissions("staff-delete")
 	public String deleteBatch() {
 		staffService.deleteBatch(ids);
 		return LIST;
 	}
+	@RequiresPermissions("staff-edit")
 	public String edit() {
 		Staff staff=staffService.findById(model.getId());
 		staff.setName(model.getName());
@@ -62,21 +62,6 @@ public class StaffAction extends BaseAction<Staff>{
 		List<Staff> list=staffService.findListNotDelete();
 		this.java2Json(list, new String[]{"decidedzones"});
 		return NONE;
-	}
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getRows() {
-		return rows;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
 	}
 	public String getIds() {
 		return ids;

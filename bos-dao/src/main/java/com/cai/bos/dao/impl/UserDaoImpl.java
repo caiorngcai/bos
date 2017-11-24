@@ -26,4 +26,17 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao{
 	        return null;
 	    }
 
+	/* 
+	 *根据用户名查询密码的方法，返回给realm使用 
+	 */
+	public User findUserByUsername(String userName) {
+		String hql="FROM User u WHERE u.username=?";
+		List<User> list = (List<User>) this.getHibernateTemplate().find(hql, userName);
+		if(list!=null&&list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
+	}
+
 }
